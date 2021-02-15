@@ -47,8 +47,11 @@
         <colorSettingsPage implementation="org.toml.ide.colors.TomlColorSettingsPage"/>
         <indexPatternBuilder implementation="org.toml.ide.todo.TomlTodoIndexPatternBuilder"/>
         <todoIndexer filetype="TOML" implementationClass="org.toml.ide.todo.TomlTodoIndexer"/>
+
         <annotator language="TOML" implementationClass="org.toml.ide.annotator.TomlAnnotator"/>
         <annotator language="TOML" implementationClass="org.toml.ide.annotator.TomlHighlightingAnnotator"/>
+        <annotator language="TOML" implementationClass="org.toml.ide.schema.TomlNormalizedAnnotator"/>
+
         <extendWordSelectionHandler implementation="org.toml.ide.wordSelection.TomlStringLiteralSelectionHandler"/>
 
         <localInspection language="TOML"
@@ -56,5 +59,18 @@
                          displayName="Unresolved reference"
                          enabledByDefault="true" level="WARNING"
                          implementationClass="org.toml.ide.inspections.TomlUnresolvedReferenceInspection"/>
+
+        <localInspection language="TOML" groupName="TOML"
+                         displayName="Toml schema inspection"
+                         enabledByDefault="true" level="WARNING"
+                         implementationClass="org.toml.ide.schema.TomlJsonSchemaHighlightingInspection"/>
+
+        <completion.contributor order="first" language="TOML" id="TomlJsonSchema"
+                                implementationClass="org.toml.ide.schema.TomlJsonSchemaCompletionContributor"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij.json">
+        <jsonLikePsiWalkerFactory implementation="org.toml.ide.schema.TomlJsonLikePsiWalkerFactory"/>
+        <jsonSchemaEnabler implementation="org.toml.ide.schema.TomlJsonSchemaEnabler" />
     </extensions>
 </idea-plugin>
