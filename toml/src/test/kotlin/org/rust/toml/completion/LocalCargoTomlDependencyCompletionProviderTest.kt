@@ -39,4 +39,22 @@ class LocalCargoTomlDependencyCompletionProviderTest : LocalCargoTomlCompletionT
         [dependencies]
         foo_bar = "<caret>"
     """, "foo_bar" to CargoRegistryCrate.of("1.0.0"))
+
+    fun `test complete with complex dependency head`() = doSingleCompletion("""
+        [target.'cfg(windows)'.dev-dependencies]
+        d<caret>
+    """, """
+        [target.'cfg(windows)'.dev-dependencies]
+        dep = "<caret>"
+    """, "dep" to CargoRegistryCrate.of("1.0"))
+
+    fun `test complete specific dependency header partial key`() = doSingleCompletion("""
+        [dependencies.d<caret>]
+    """, """
+        [dependencies.dep]
+        version = "<caret>"
+    """,
+        "dep" to CargoRegistryCrate.of("1.0"),
+        "bar" to CargoRegistryCrate.of("2.0")
+    )
 }
